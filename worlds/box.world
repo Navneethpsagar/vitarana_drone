@@ -3,7 +3,7 @@
   <world name="default">
     <scene>
       <shadows>false</shadows>
-      <grid>true</grid>
+      <grid>false</grid>
       <sky>
         <clouds>
           <speed>4</speed>
