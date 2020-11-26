@@ -91,12 +91,11 @@ class Edrone():
         #self.result = self.s(False)
 
         #Commenting out the PID tune subscirbers after tuning the PIDs
-        '''
-        rospy.Subscriber('/pid_tuning_roll', PidTune, self.roll_set_pid)
-        rospy.Subscriber('/pid_tuning_pitch',PidTune,self.pitch_set_pid)
+        #rospy.Subscriber('/pid_tuning_roll', PidTune, self.roll_set_pid)
+        #rospy.Subscriber('/pid_tuning_pitch',PidTune,self.pitch_set_pid)
         rospy.Subscriber('/pid_tuning_altitude',PidTune,self.altitude_set_pid)
-        '''
-    # Callback definations
+        
+            # Callback definations
     def gps_callback(self, msg):
 
      self.drone_posn[0] = msg.latitude
@@ -291,66 +290,16 @@ if __name__ == '__main__':
     val = 0
 
     while not rospy.is_shutdown():
-        while val<6:
-            if val==0 :
-                takeoff_point=[e_drone.drone_posn[0],e_drone.drone_posn[1],box_coord[2]+1]
-                errors = e_drone.pid(takeoff_point)
-                if abs(errors[2])<0.02 :
-                    val+=1
-                    print(val)
-                    print('takeoff successful')
+        #while val<6:
+	    if val==0 :
+	        takeoff_point=[e_drone.drone_posn[0],e_drone.drone_posn[1],box_coord[2]+1]
+	        errors = e_drone.pid(takeoff_point)
+	        if abs(errors[2])<0.02 :
+	            val+=1
+	            print(val)
+	            print('takeoff successful')
 
-            elif val==1:
-                coordinates = e_drone.detect_follow_wall(box_hover_coord)
-                errors = e_drone.pid(coordinates)
-                if coordinates == box_hover_coord:
-                    if abs(errors[0])< 0.0000004517 and abs(errors[2])< 0.02:
-                        val+=1
-                        print(val)
-                        print('reached box coordinates and hovering')
-                else:
-                    if abs(errors[0])< 0.0000005 and abs(errors[1])< 0.0000005 and abs(errors[2])< 0.02:
-                        e_drone.pid(e_drone.detect_follow_wall(coordinates))
-
-            elif val==2:
-                errors = e_drone.pid(box_coord)
-                if abs(errors[0])< 0.0000004517 and abs(errors[1])< 0.0000004517 and abs(errors[2])< 0.02:
-                    if e_drone.box_proximity == 'True':
-                        e_drone.s = rospy.ServiceProxy('/edrone/activate_gripper',Gripper)
-                        e_drone.result = e_drone.s(True)
-                        val+=1
-                        print(val)
-                        print('picked up the box')
-
-            elif val==3:
-                errors = e_drone.pid(box_hover_coord)
-                if abs(errors[0])< 0.0000004517 and abs(errors[2])< 0.02:
-                    val+=1
-                    print(val)
-                    print('picked up the box and hovering')
-
-            elif val==4:
-                coordinates = e_drone.detect_follow_wall([e_drone.destination[0],e_drone.destination[1],box_hover_coord[2]])
-                errors = e_drone.pid(coordinates)
-                if coordinates == [e_drone.destination[0],e_drone.destination[1],box_hover_coord[2]]:
-                    if abs(errors[0])< 0.0000004517 and abs(errors[1])< 0.0000004517 and abs(errors[2])< 0.02:
-                        val+=1
-                        print(val)
-                        print('reached above box destination')
-                else:
-                    if abs(errors[0])< 0.00000005 and abs(errors[0])< 0.00000005 and abs(errors[2])< 0.02:
-                        e_drone.pid(e_drone.detect_follow_wall(coordinates))
-
-            elif val==5 :
-                errors = e_drone.pid(e_drone.destination)
-                if abs(errors[0])< 0.0000004517 and abs(errors[1])< 0.0000004517 and abs(errors[2])< 0.015 :
-                    val+=1
-                    e_drone.s = rospy.ServiceProxy('/edrone/activate_gripper',Gripper)
-                    e_drone.result = e_drone.s(False)
-                    print(val)
-                    print('reached destination, landed and released')
-                    exit()
-
+         
             r.sleep()
 
 
