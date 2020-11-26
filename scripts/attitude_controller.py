@@ -46,8 +46,12 @@ class Edrone():
 
         # Tuned PID parameters for [roll, pitch, yaw]
         self.Kp = [1485.0*0.06, 1965.0*0.04, 5000*5]
-        self.Ki = [0.0, 0.0, 90* 0.002]
+        self.Ki = [0.0,0.0, 90* 0.002]
         self.Kd = [3930.0*0.3, 5000.0*0.2, 0.4*5000]
+        '''# Tuned PID parameters for [roll, pitch, yaw]
+        self.Kp = [1485.0*0.06, 1965.0*0.04, 5000*5]
+        self.Ki = [0.0, 0.0, 90* 0.002]
+        self.Kd = [3930.0*0.3, 5000.0*0.2, 0.4*5000]'''
 
         # Other required variables
         self.error = [0.0, 0.0, 0.0]
